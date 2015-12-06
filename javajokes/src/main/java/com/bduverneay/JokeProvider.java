@@ -4,6 +4,6 @@ public class JokeProvider {
 
 
     public String getJoke() {
-        return "Why did the chicken cross the road";
+        return "Why did the chicken cross the road?";
     }
 }

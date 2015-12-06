@@ -1,6 +1,7 @@
 package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.duvernea.jokedisplay.JokeDisplayActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.bduverneay.JokeProvider;
@@ -37,12 +39,16 @@ public class MainActivityFragment extends Fragment {
 
         mJokeButton = (Button) root.findViewById(R.id.tell_joke_button);
 
-        JokeProvider jokeProvider = new JokeProvider();
-        final String testJoke = jokeProvider.getJoke();
+
         mJokeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, testJoke, Toast.LENGTH_LONG).show();
+                JokeProvider jokeProvider = new JokeProvider();
+                String testJoke = jokeProvider.getJoke();
+                //Toast.makeText(mContext, testJoke, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(mContext, JokeDisplayActivity.class);
+                intent.putExtra(JokeDisplayActivity.JOKE_EXTRA, testJoke);
+                startActivity(intent);
             }
         });
         // Log.d(TAG, "Java return int: " + a);
