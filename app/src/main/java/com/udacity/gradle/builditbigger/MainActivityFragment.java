@@ -2,9 +2,11 @@ package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,14 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.duvernea.jokedisplay.JokeDisplayActivity;
+import com.example.duvernea.myapplication.backend.myApi.MyApi;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.bduverneay.JokeProvider;
+
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+
+import java.io.IOException;
 
 
 /**
@@ -43,12 +50,8 @@ public class MainActivityFragment extends Fragment {
         mJokeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JokeProvider jokeProvider = new JokeProvider();
-                String testJoke = jokeProvider.getJoke();
-                //Toast.makeText(mContext, testJoke, Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(mContext, JokeDisplayActivity.class);
-                intent.putExtra(JokeDisplayActivity.JOKE_EXTRA, testJoke);
-                startActivity(intent);
+                new EndpointsAsyncTask().execute(new Pair<Context, String>(mContext, "Why did the chicken cross the road?"));
+
             }
         });
         // Log.d(TAG, "Java return int: " + a);
@@ -62,6 +65,43 @@ public class MainActivityFragment extends Fragment {
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);
+
+
+
         return root;
     }
+
+    class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+        private MyApi myApiService = null;
+        private Context context;
+
+        @Override
+        protected String doInBackground(Pair<Context, String>... params) {
+            if(myApiService == null) {  // Only do this once
+                MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+                        .setRootUrl("https://builditbigger-1155.appspot.com/_ah/api/");
+                // end options for devappserver
+
+                myApiService = builder.build();
+            }
+
+            context = params[0].first;
+            String name = params[0].second;
+
+            try {
+                return myApiService.getJoke(name).execute().getData();
+            } catch (IOException e) {
+                Log.d(TAG, "Exception: " + e.getMessage());
+                return e.getMessage();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Intent intent = new Intent(mContext, JokeDisplayActivity.class);
+            intent.putExtra(JokeDisplayActivity.JOKE_EXTRA, result);
+            startActivity(intent);
+        }
+    }
+
 }
