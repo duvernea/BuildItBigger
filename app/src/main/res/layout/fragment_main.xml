@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/instructions_text_view"
         android:id="@+id/tell_joke_button"
-        android:text="@string/button_text"
+        android:text="@string/joke_button_text"
         android:onClick="tellJoke"
 
         />

@@ -50,7 +50,16 @@ public class MainActivityFragment extends Fragment {
         mJokeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new EndpointsAsyncTask().execute(new Pair<Context, String>(mContext, "Why did the chicken cross the road?"));
+                GetEndpointsAsyncTask task = new GetEndpointsAsyncTask();
+                task.setListener(new GetEndpointsAsyncTask.GetEndpointsTaskListener() {
+                    @Override
+                    public void onComplete(String joke, Exception e) {
+                        Intent intent = new Intent(mContext, JokeDisplayActivity.class);
+                        intent.putExtra(JokeDisplayActivity.JOKE_EXTRA, joke);
+                        startActivity(intent);
+                    }
+                });
+                task.execute(new Pair<Context, String>(mContext, "Why did the chicken cross the road?"));
 
             }
         });
@@ -71,37 +80,44 @@ public class MainActivityFragment extends Fragment {
         return root;
     }
 
-    class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
-        private MyApi myApiService = null;
-        private Context context;
-
-        @Override
-        protected String doInBackground(Pair<Context, String>... params) {
-            if(myApiService == null) {  // Only do this once
-                MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-                        .setRootUrl("https://builditbigger-1155.appspot.com/_ah/api/");
-                // end options for devappserver
-
-                myApiService = builder.build();
-            }
-
-            context = params[0].first;
-            String name = params[0].second;
-
-            try {
-                return myApiService.getJoke(name).execute().getData();
-            } catch (IOException e) {
-                Log.d(TAG, "Exception: " + e.getMessage());
-                return e.getMessage();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Intent intent = new Intent(mContext, JokeDisplayActivity.class);
-            intent.putExtra(JokeDisplayActivity.JOKE_EXTRA, result);
-            startActivity(intent);
-        }
-    }
+//    class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+//        private MyApi myApiService = null;
+//        private Context context;
+//
+//        private GetEndpointsTaskListener
+//
+//        public interface GetEndpointsTaskListener {
+//
+//        }
+//
+//        @Override
+//        protected String doInBackground(Pair<Context, String>... params) {
+//            if(myApiService == null) {  // Only do this once
+//                MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+//                        .setRootUrl("https://builditbigger-1155.appspot.com/_ah/api/");
+//                // end options for devappserver
+//
+//                myApiService = builder.build();
+//            }
+//
+//            context = params[0].first;
+//            String name = params[0].second;
+//
+//            try {
+//                return myApiService.getJoke(name).execute().getData();
+//            } catch (IOException e) {
+//                Log.d(TAG, "Exception: " + e.getMessage());
+//                return e.getMessage();
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            Intent intent = new Intent(mContext, JokeDisplayActivity.class);
+//            intent.putExtra(JokeDisplayActivity.JOKE_EXTRA, result);
+//            startActivity(intent);
+//
+//        }
+//    }
 
 }
