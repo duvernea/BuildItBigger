@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * Created by duvernea on 12/19/15.
  */
-class GetEndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+public class GetEndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
 
     private static final String TAG = GetEndpointsAsyncTask.class.getSimpleName();
 
