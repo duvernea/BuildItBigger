@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.duvernea.jokedisplay.JokeDisplayActivity;
@@ -36,6 +37,7 @@ public class MainActivityFragment extends Fragment {
     private Context mContext;
 
     private Button mJokeButton;
+    private ProgressBar mProgressBar;
 
     public MainActivityFragment() {
     }
@@ -45,22 +47,28 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         mContext = getActivity();
+        mProgressBar = (ProgressBar) root.findViewById(R.id.progressBar1);
+        mProgressBar.setVisibility(View.GONE);
 
         mJokeButton = (Button) root.findViewById(R.id.tell_joke_button);
 
         mJokeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO - CHECK NETWORK CONNECTIVITY
+
                 GetEndpointsAsyncTask task = new GetEndpointsAsyncTask();
                 task.setListener(new GetEndpointsAsyncTask.GetEndpointsTaskListener() {
                     @Override
                     public void onComplete(String joke, Exception e) {
                         Intent intent = new Intent(mContext, JokeDisplayActivity.class);
                         intent.putExtra(JokeDisplayActivity.JOKE_EXTRA, joke);
+                        mProgressBar.setVisibility(View.GONE);
                         startActivity(intent);
                     }
                 });
                 task.execute(new Pair<Context, String>(mContext, "Why did the chicken cross the road?"));
+                mProgressBar.setVisibility(View.VISIBLE);
 
             }
         });

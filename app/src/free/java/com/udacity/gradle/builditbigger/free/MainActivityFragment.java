@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.example.duvernea.jokedisplay.JokeDisplayActivity;
 import com.google.android.gms.ads.AdListener;
@@ -33,6 +34,8 @@ public class MainActivityFragment extends Fragment {
     private String mJokeString;
     private boolean adLoaded=false;
 
+    private ProgressBar mProgressBar;
+
     InterstitialAd mInterstitialAd;
 
     public MainActivityFragment() {
@@ -43,6 +46,8 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         mContext = getActivity();
+        mProgressBar = (ProgressBar) root.findViewById(R.id.progressBar1);
+        mProgressBar.setVisibility(View.GONE);
 
         mInterstitialAd = new InterstitialAd(mContext);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.banner_ad_unit_id));
@@ -59,15 +64,18 @@ public class MainActivityFragment extends Fragment {
                     adLoaded = false;
                 }
             }
+
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 super.onAdFailedToLoad(errorCode);
                 adLoaded = false;
             }
+
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
                 adLoaded = true;
+
             }
         });
         requestNewInterstitial();
@@ -77,9 +85,11 @@ public class MainActivityFragment extends Fragment {
 
 
         mJokeButton.setOnClickListener(new View.OnClickListener() {
+            // TODO - CHECK NETWORK CONNECTIVITY
             @Override
             public void onClick(View v) {
                 if (adLoaded) {
+                    mProgressBar.setVisibility(View.GONE);
                     mInterstitialAd.show();
                 }
                 GetEndpointsAsyncTask task = new GetEndpointsAsyncTask();
@@ -88,11 +98,13 @@ public class MainActivityFragment extends Fragment {
                     public void onComplete(String joke, Exception e) {
                         mJokeString = joke;
                         if (!adLoaded) {
+
                             startNewActivity();
                         }
                     }
                 });
                 task.execute(new Pair<Context, String>(mContext, "Why did the chicken cross the road?"));
+                mProgressBar.setVisibility(View.VISIBLE);
 
             }
         });
@@ -120,6 +132,7 @@ public class MainActivityFragment extends Fragment {
         mInterstitialAd.loadAd(adRequest);
     }
     private void startNewActivity() {
+        mProgressBar.setVisibility(View.GONE);
         Intent intent = new Intent(mContext, JokeDisplayActivity.class);
         intent.putExtra(JokeDisplayActivity.JOKE_EXTRA, mJokeString);
         startActivity(intent);
