@@ -21,7 +21,10 @@ public class JokeDisplayActivity extends AppCompatActivity {
     public static final String JOKE_EXTRA = "joke_extra";
 
     private TextView mJokeTextView;
+    private String mJokeString;
     private Context mContext;
+
+    private static final String JOKE_STRING_KEY = "joke_string";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +40,9 @@ public class JokeDisplayActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            String jokeExtra = extras.getString(JOKE_EXTRA);
-            Log.d(TAG, jokeExtra);
-            mJokeTextView.setText(jokeExtra);
+            mJokeString = extras.getString(JOKE_EXTRA);
+            Log.d(TAG, "From Intent extra: " + mJokeString);
+            mJokeTextView.setText(mJokeString);
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -51,7 +54,16 @@ public class JokeDisplayActivity extends AppCompatActivity {
 
             }
         });
+        if (savedInstanceState != null) {
+            mJokeString = savedInstanceState.getString(JOKE_STRING_KEY);
+            Log.d(TAG, "From savedInstanceState bundle: " + mJokeString);
+            mJokeTextView.setText(mJokeString);
+        }
     }
 
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(JOKE_STRING_KEY, mJokeString);
+    }
 }
