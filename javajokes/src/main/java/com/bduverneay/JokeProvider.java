@@ -56,7 +56,7 @@ public class JokeProvider {
                 "A Sine from God"),
         new Joke("Do you know any good jokes about Sodium?" ,
                 "Na"),
-        new Joke("Tell me a joke about Potassium.\n\n" ,
+        new Joke("Tell me a joke about Potassium." ,
                 "K"),
     };
 }
