@@ -6,6 +6,7 @@
 
 package com.example.duvernea.myapplication.backend;
 
+import com.bduverneay.Joke;
 import com.bduverneay.JokeProvider;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -30,19 +31,13 @@ public class MyEndpoint {
     /**
      * A simple endpoint method that takes a name and says Hi back
      */
-    @ApiMethod(name = "sayHi")
-    public MyBean sayHi(@Named("name") String name) {
-        MyBean response = new MyBean();
-        response.setData("Hi, " + name);
-
-        return response;
-    }
     @ApiMethod(name = "getJoke")
-    public MyBean getJoke(@Named("joke") String dummy) {
+    public MyBean getJoke() {
         MyBean response = new MyBean();
         JokeProvider jokeProvider = new JokeProvider();
-        String joke = jokeProvider.getJoke();
-        response.setData(joke);
+        Joke joke = jokeProvider.getJoke();
+        response.setSetup(joke.getSetup());
+        response.setPunchline(joke.getPunchline());
 
         return response;
     }

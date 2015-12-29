@@ -3,4 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="joke_setup_text_size">16sp</dimen>
+    <dimen name="joke_punchline_text_size">16sp</dimen>
+
+    <dimen name="joke_button_text_size">24sp</dimen>
 </resources>

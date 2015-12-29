@@ -5,13 +5,19 @@ package com.example.duvernea.myapplication.backend;
  */
 public class MyBean {
 
-    private String myData;
+    private String setup;
+    private String punchline;
 
-    public String getData() {
-        return myData;
+    public String getSetup() {
+        return setup;
+    }
+    public String getPunchline()
+    {
+        return punchline;
     }
 
-    public void setData(String data) {
-        myData = data;
+    public void setSetup(String data) {
+        setup = data;
     }
+    public void setPunchline(String data) {punchline = data;}
 }

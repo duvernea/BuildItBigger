@@ -18,6 +18,7 @@ import com.example.duvernea.jokedisplay.JokeDisplayActivity;
 import com.example.duvernea.myapplication.backend.myApi.MyApi;
 
 
+import com.example.duvernea.myapplication.backend.myApi.model.MyBean;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.udacity.gradle.builditbigger.GetEndpointsAsyncTask;
@@ -60,14 +61,15 @@ public class MainActivityFragment extends Fragment {
                 GetEndpointsAsyncTask task = new GetEndpointsAsyncTask();
                 task.setListener(new GetEndpointsAsyncTask.GetEndpointsTaskListener() {
                     @Override
-                    public void onComplete(String joke, Exception e) {
+                    public void onComplete(MyBean joke, Exception e) {
                         Intent intent = new Intent(mContext, JokeDisplayActivity.class);
-                        intent.putExtra(JokeDisplayActivity.JOKE_EXTRA, joke);
+                        intent.putExtra(JokeDisplayActivity.JOKE_SETUP, joke.getSetup());
+                        intent.putExtra(JokeDisplayActivity.JOKE_PUNCHLINE, joke.getPunchline());
                         mProgressBar.setVisibility(View.GONE);
                         startActivity(intent);
                     }
                 });
-                task.execute(new Pair<Context, String>(mContext, "Why did the chicken cross the road?"));
+                task.execute(new Pair<Context, String>(mContext, ""));
                 mProgressBar.setVisibility(View.VISIBLE);
 
             }

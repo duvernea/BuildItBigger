@@ -5,6 +5,8 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 import android.util.Pair;
 
+import com.example.duvernea.myapplication.backend.myApi.model.MyBean;
+
 import junit.framework.TestResult;
 
 import org.junit.Test;
@@ -20,7 +22,8 @@ public class JokeAsyncTaskTest extends AndroidTestCase {
 
     Exception mError = null;
     CountDownLatch signal = null;
-    String jokeString = null;
+    String jokeSetupString = null;
+    String jokePunchlineString = null;
 
     @Test
     public void testRetrieveJokeStringFromGCE() {
@@ -29,8 +32,9 @@ public class JokeAsyncTaskTest extends AndroidTestCase {
         GetEndpointsAsyncTask task = new GetEndpointsAsyncTask();
         task.setListener(new GetEndpointsAsyncTask.GetEndpointsTaskListener() {
             @Override
-            public void onComplete(String joke, Exception e) {
-                jokeString = joke;
+            public void onComplete(MyBean joke, Exception e) {
+                jokeSetupString = joke.getSetup();
+                jokePunchlineString = joke.getPunchline();
                 mError = e;
                 signal.countDown();
             }
@@ -41,8 +45,8 @@ public class JokeAsyncTaskTest extends AndroidTestCase {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.d(TAG, "Joke String: " + jokeString);
         assertNull(mError);
-        assertNotNull(jokeString);
+        assertNotNull(jokeSetupString);
+        assertNotNull(jokePunchlineString);
     }
 }
