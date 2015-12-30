@@ -28,6 +28,8 @@ public class JokeDisplayActivity extends AppCompatActivity {
     public static final String JOKE_SETUP = "joke_setup";
     public static final String JOKE_PUNCHLINE = "joke_punchline";
 
+    private static final int EXTRA_HEIGHT_ANIMATE = 30;
+
     private TextView mJokeSetupTextView;
     private TextView mJokePunchlineTextView;
     private String mJokeSetupString;
@@ -38,12 +40,13 @@ public class JokeDisplayActivity extends AppCompatActivity {
 
     private boolean mPunchlineRevealed = false;
 
+    // Keys for saved instance state on rotate
     private static final String JOKE_STRING_SETUP_KEY = "joke_string_setup";
     private static final String JOKE_STRING_PUNCHLINE_KEY = "joke_string_punchline";
     private static final String PUNCHLINE_REVEALED_KEY = "punchline_revealed";
+    private static final String PUNCHLINE_VIEW_HEIGHT_KEY = "punchline_view_height";
 
-    private int viewWidth;
-    private int viewHeight;
+    private int mViewHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,17 +66,12 @@ public class JokeDisplayActivity extends AppCompatActivity {
                 @Override
                 public void onGlobalLayout() {
                     //mJokePunchlineTextView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    viewWidth = mJokePunchlineTextView.getWidth();
-                    viewHeight = mJokePunchlineTextView.getHeight();
-                    Log.d(TAG, "Viewtreeobserve height " + viewHeight);
-                    mJokePunchlineTextView.setVisibility(View.INVISIBLE);
+                    mViewHeight = mJokePunchlineTextView.getHeight();
                 }
             });
         }
 
-
         int x = mJokePunchlineTextView.getHeight();
-        Log.d(TAG, "Height of punchline oncreate: " + x);
 
         mButton = (Button) findViewById(R.id.button);
         mButton.setText(getResources().getString(R.string.button_get_joke_punchline));
@@ -96,18 +94,19 @@ public class JokeDisplayActivity extends AppCompatActivity {
             mJokePunchlineTextView.setText(mJokePunchlineString);
 
             mPunchlineRevealed = savedInstanceState.getBoolean(PUNCHLINE_REVEALED_KEY);
+            mViewHeight = savedInstanceState.getInt(PUNCHLINE_VIEW_HEIGHT_KEY);
+            mJokePunchlineTextView.setVisibility(View.VISIBLE);
             if (mPunchlineRevealed) {
-                mJokePunchlineTextView.setVisibility(View.VISIBLE);
-                mButton.setText(getResources().getString(R.string.button_joke_done));
+                animateButtonObject(100);
+
             }
         }
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!mPunchlineRevealed) {
-                    animateButtonObject();
-                }
-                else {
+                    animateButtonObject(1000);
+                } else {
                     finish();
                 }
             }
@@ -120,16 +119,15 @@ public class JokeDisplayActivity extends AppCompatActivity {
         outState.putString(JOKE_STRING_SETUP_KEY, mJokeSetupString);
         outState.putString(JOKE_STRING_PUNCHLINE_KEY, mJokePunchlineString);
         outState.putBoolean(PUNCHLINE_REVEALED_KEY, mPunchlineRevealed);
+        outState.putInt(PUNCHLINE_VIEW_HEIGHT_KEY, mViewHeight);
 
     }
-    public void animateButtonObject() {
+    public void animateButtonObject(int duration) {
+        Log.d(TAG, "Animating button");
         mButton.clearAnimation();
-        int x = mJokePunchlineTextView.getHeight();
-        int extraHeightAnimate = 10;
-        Log.d(TAG, "Height of punchline onclick: " + x);
-        ObjectAnimator animX = ObjectAnimator.ofFloat(mButton, "translationY", viewHeight+extraHeightAnimate);
+        ObjectAnimator animX = ObjectAnimator.ofFloat(mButton, "translationY", mViewHeight+EXTRA_HEIGHT_ANIMATE);
         animX.setStartDelay(100);
-        animX.setDuration(1000);
+        animX.setDuration(duration);
         animX.start();
         mJokePunchlineTextView.setVisibility(View.VISIBLE);
         animX.addListener(new Animator.AnimatorListener() {

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.example.duvernea.jokedisplay.JokeDisplayActivity;
+import com.example.duvernea.myapplication.backend.myApi.model.MyBean;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -31,7 +32,7 @@ public class MainActivityFragment extends Fragment {
     private Context mContext;
 
     private Button mJokeButton;
-    private String mJokeString;
+    private MyBean mJoke;
     private boolean adLoaded=false;
 
     private ProgressBar mProgressBar;
@@ -56,8 +57,8 @@ public class MainActivityFragment extends Fragment {
             public void onAdClosed() {
                 super.onAdClosed();
                 Log.d(TAG, "Ad closed");
-                if (mJokeString != null) {
-                    startNewActivity();
+                if (mJoke != null) {
+                    startNewActivity(mJoke);
                 } else {
                     // joke string still not retrieved.
                     // app will continue waiting for async to finish, then start new activity in onComplete
@@ -95,16 +96,17 @@ public class MainActivityFragment extends Fragment {
                 GetEndpointsAsyncTask task = new GetEndpointsAsyncTask();
                 task.setListener(new GetEndpointsAsyncTask.GetEndpointsTaskListener() {
                     @Override
-                    public void onComplete(String joke, Exception e) {
-                        mJokeString = joke;
+                    public void onComplete(MyBean joke, Exception e) {
+                        mJoke = joke;
                         if (!adLoaded) {
-
-                            startNewActivity();
+                            startNewActivity(joke);
                         }
                     }
                 });
-                task.execute(new Pair<Context, String>(mContext, "Why did the chicken cross the road?"));
+                task.execute(new Pair<Context, String>(mContext, ""));
                 mProgressBar.setVisibility(View.VISIBLE);
+
+
 
             }
         });
@@ -131,10 +133,12 @@ public class MainActivityFragment extends Fragment {
 
         mInterstitialAd.loadAd(adRequest);
     }
-    private void startNewActivity() {
+    private void startNewActivity(MyBean joke) {
         mProgressBar.setVisibility(View.GONE);
         Intent intent = new Intent(mContext, JokeDisplayActivity.class);
-        intent.putExtra(JokeDisplayActivity.JOKE_EXTRA, mJokeString);
+        intent.putExtra(JokeDisplayActivity.JOKE_SETUP, joke.getSetup());
+        intent.putExtra(JokeDisplayActivity.JOKE_PUNCHLINE, joke.getPunchline());
+        mProgressBar.setVisibility(View.GONE);
         startActivity(intent);
     }
 }
