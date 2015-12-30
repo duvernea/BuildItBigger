@@ -13,26 +13,26 @@
     tools:context="com.example.duvernea.jokedisplay.JokeDisplayActivity"
     android:background="@color/primary_light">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/joke_setup_textview"
-            android:padding="8dp"
-            android:layout_marginBottom="8dp"
-            android:textSize="@dimen/abc_text_size_medium_material"
-            android:layout_alignParentTop="true"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/joke_setup_textview"
+        android:padding="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:layout_alignParentTop="true"
 
-            android:textColor="@android:color/black" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/joke_punchline_textview"
-            android:padding="8dp"
-            android:layout_marginBottom="16dp"
-            android:textSize="@dimen/abc_text_size_medium_material"
-            android:textStyle="italic"
-            android:layout_below="@id/joke_setup_textview"
-            android:textColor="@color/accent" />
+        android:textColor="@android:color/black" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/joke_punchline_textview"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:textStyle="italic"
+        android:layout_below="@id/joke_setup_textview"
+        android:textColor="@color/accent" />
 
     <Button
         android:id="@+id/button"

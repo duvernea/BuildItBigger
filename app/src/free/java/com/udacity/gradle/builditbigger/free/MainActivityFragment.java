@@ -2,6 +2,8 @@ package com.udacity.gradle.builditbigger.free;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.duvernea.jokedisplay.JokeDisplayActivity;
 import com.example.duvernea.myapplication.backend.myApi.model.MyBean;
@@ -43,13 +46,8 @@ public class MainActivityFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_main, container, false);
-        mContext = getActivity();
-        mProgressBar = (ProgressBar) root.findViewById(R.id.progressBar1);
-        mProgressBar.setVisibility(View.GONE);
-
+    public void onResume() {
+        super.onResume();
         mInterstitialAd = new InterstitialAd(mContext);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.banner_ad_unit_id));
         mInterstitialAd.setAdListener(new AdListener() {
@@ -80,39 +78,52 @@ public class MainActivityFragment extends Fragment {
             }
         });
         requestNewInterstitial();
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_main, container, false);
+        mContext = getActivity();
+        mProgressBar = (ProgressBar) root.findViewById(R.id.progressBar1);
+        mProgressBar.setVisibility(View.GONE);
 
         mJokeButton = (Button) root.findViewById(R.id.tell_joke_button);
 
-
         mJokeButton.setOnClickListener(new View.OnClickListener() {
-            // TODO - CHECK NETWORK CONNECTIVITY
             @Override
             public void onClick(View v) {
-                if (adLoaded) {
-                    mProgressBar.setVisibility(View.GONE);
-                    mInterstitialAd.show();
-                }
-                GetEndpointsAsyncTask task = new GetEndpointsAsyncTask();
-                task.setListener(new GetEndpointsAsyncTask.GetEndpointsTaskListener() {
-                    @Override
-                    public void onComplete(MyBean joke, Exception e) {
-                        mJoke = joke;
-                        if (!adLoaded) {
-                            startNewActivity(joke);
-                        }
+                ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+                if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                    if (adLoaded) {
+                        mProgressBar.setVisibility(View.GONE);
+                        mInterstitialAd.show();
                     }
-                });
-                task.execute(new Pair<Context, String>(mContext, ""));
-                mProgressBar.setVisibility(View.VISIBLE);
+                    GetEndpointsAsyncTask task = new GetEndpointsAsyncTask();
+                    task.setListener(new GetEndpointsAsyncTask.GetEndpointsTaskListener() {
+                        @Override
+                        public void onComplete(MyBean joke, Exception e) {
+                            Log.d(TAG, "task load complete");
+                            mJoke = joke;
+                            if (!adLoaded) {
+                                Log.d(TAG, "ad not loaded yet, start new activity anyways");
+                                startNewActivity(joke);
+                            }
+                        }
+                    });
+                    Log.d(TAG, "Async task execute step");
+                    task.execute(new Pair<Context, String>(mContext, ""));
+                    mProgressBar.setVisibility(View.VISIBLE);
+                }
+                else {
+                    Toast.makeText(mContext, getResources().getString(R.string.no_network_message), Toast.LENGTH_LONG).show();
+                }
 
 
 
             }
         });
-        // Log.d(TAG, "Java return int: " + a);
-
-
         AdView mAdView = (AdView) root.findViewById(R.id.adView);
         // Create an ad request. Check logcat output for the hashed device ID to
         // get test ads on a physical device. e.g.

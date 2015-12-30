@@ -48,12 +48,10 @@ public class GetEndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void
         try {
             MyBean jokeBean = myApiService.getJoke().execute();
             return jokeBean;
-            //return jokeBean.getSetup();
         } catch (IOException e) {
             Log.d(TAG, "IOException caught");
             mError = e;
             return null;
-            //return e.getMessage();
         }
     }
     @Override

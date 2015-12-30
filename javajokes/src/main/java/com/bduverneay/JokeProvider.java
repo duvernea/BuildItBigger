@@ -17,7 +17,7 @@ public class JokeProvider {
         new Joke("There are 10 kinds of people in this world." ,
                 "Those who understand binary, those who don't"),
         new Joke("An SEO expert walks into a bar, pub, public house, inn, restaurant, club." ,
-                ""),
+                "That's the joke"),
         new Joke("Why is it that women find C to be more attractive than Java?" ,
                 "Because C doesn’t treat them like objects."),
         new Joke("In Canadian hexadecimal, why is 6 afraid of 7?" ,

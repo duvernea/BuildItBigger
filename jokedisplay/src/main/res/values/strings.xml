@@ -3,5 +3,5 @@
     <string name="title_activity_joke_display">Here is a Joke</string>
 
     <string name="button_joke_done">Ok</string>
-    <string name="button_get_joke_punchline">MORE...</string>
+    <string name="button_get_joke_punchline">MORE &#9660;</string>
 </resources>
