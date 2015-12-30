@@ -17,3 +17,38 @@ allprojects {
         jcenter()
     }
 }
+
+// Tasks to start Backend, run Connected Tests, and Shutdown Backend again
+// Run the testTask task, to run through those steps
+task startBackend {
+    dependsOn tasks.getByPath(":backend:appengineRun")
+    evaluationDependsOn ":backend"
+    project(":backend"){
+        appengine{
+            daemon true
+        }
+    }
+    doLast {
+        println "Backend started"
+    }
+}
+task runConnectedTests {
+    dependsOn (startBackend)
+    finalizedBy ":app:connectedAndroidTest"
+    doLast {
+        println "Connected Tests Run"
+    }
+}
+task shutdownBackend {
+    dependsOn (runConnectedTests)
+    finalizedBy tasks.getByPath(":backend:appengineStop")
+    doLast {
+        println "Backend shutdown"
+    }
+}
+task testTask {
+    dependsOn (shutdownBackend)
+    doLast {
+        println "testTask Testing complete"
+    }
+}
