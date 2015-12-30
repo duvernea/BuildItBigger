@@ -2,6 +2,6 @@
     <string name="app_name">jokedisplay</string>
     <string name="title_activity_joke_display">Here is a Joke</string>
 
-    <string name="get_joke_button_text">Get Another Joke</string>
+    <string name="button_joke_done">Ok</string>
     <string name="button_get_joke_punchline">MORE...</string>
 </resources>

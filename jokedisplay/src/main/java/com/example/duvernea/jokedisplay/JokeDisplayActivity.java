@@ -3,6 +3,7 @@ package com.example.duvernea.jokedisplay;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
@@ -48,6 +49,7 @@ public class JokeDisplayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joke_display);
+
 
         mContext = this;
 
@@ -96,13 +98,18 @@ public class JokeDisplayActivity extends AppCompatActivity {
             mPunchlineRevealed = savedInstanceState.getBoolean(PUNCHLINE_REVEALED_KEY);
             if (mPunchlineRevealed) {
                 mJokePunchlineTextView.setVisibility(View.VISIBLE);
-                mButton.setText(getResources().getString(R.string.get_joke_button_text));
+                mButton.setText(getResources().getString(R.string.button_joke_done));
             }
         }
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animateButtonObject();
+                if (!mPunchlineRevealed) {
+                    animateButtonObject();
+                }
+                else {
+                    finish();
+                }
             }
         });
     }
@@ -128,41 +135,20 @@ public class JokeDisplayActivity extends AppCompatActivity {
         animX.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                mButton.setText(getResources().getString(R.string.get_joke_button_text));
+                mButton.setText(getResources().getString(R.string.button_joke_done));
                 mPunchlineRevealed = true;
             }
+
             @Override
-            public void onAnimationStart(Animator animation) {}
-            @Override
-            public void onAnimationCancel(Animator animation) {}
-            @Override
-            public void onAnimationRepeat(Animator animation) {}
-        });
-    }
-    public void animateButton() {
-        mButton.clearAnimation();
-        int x = mJokePunchlineTextView.getHeight();
-        int extraHeightAnimate = 10;
-        Log.d(TAG, "Height of punchline onclick: " + x);
-        TranslateAnimation translation;
-        translation = new TranslateAnimation(0f, 0F, 0f, viewHeight+extraHeightAnimate);
-        translation.setStartOffset(100);
-        translation.setDuration(1000);
-        translation.setFillAfter(true);
-        //translation.setInterpolator(new LinearOutSlowInInterpolator());
-        mButton.startAnimation(translation);
-        mJokePunchlineTextView.setVisibility(View.VISIBLE);
-        translation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
+            public void onAnimationStart(Animator animation) {
             }
+
             @Override
-            public void onAnimationEnd(Animation animation) {
-                mButton.setText(getResources().getString(R.string.get_joke_button_text));
-                mPunchlineRevealed = true;
+            public void onAnimationCancel(Animator animation) {
             }
+
             @Override
-            public void onAnimationRepeat(Animation animation) {
+            public void onAnimationRepeat(Animator animation) {
             }
         });
     }
