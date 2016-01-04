@@ -1,12 +1,10 @@
 package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
 
-import com.example.duvernea.jokedisplay.JokeDisplayActivity;
 import com.example.duvernea.myapplication.backend.myApi.MyApi;
 import com.example.duvernea.myapplication.backend.myApi.model.MyBean;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -22,7 +20,7 @@ public class GetEndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void
     private static final String TAG = GetEndpointsAsyncTask.class.getSimpleName();
 
     private MyApi myApiService = null;
-    private Context context;
+    private Context mContext;
 
     private GetEndpointsTaskListener mListener = null;
     private Exception mError = null;
@@ -42,7 +40,7 @@ public class GetEndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void
             // end options for devappserver
             myApiService = builder.build();
         }
-        context = params[0].first;
+        mContext = params[0].first;
         // String name = params[0].second;
 
         try {

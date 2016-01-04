@@ -54,7 +54,6 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onAdClosed() {
                 super.onAdClosed();
-                Log.d(TAG, "Ad closed");
                 if (mJoke != null) {
                     startNewActivity(mJoke);
                 } else {
@@ -104,15 +103,13 @@ public class MainActivityFragment extends Fragment {
                     task.setListener(new GetEndpointsAsyncTask.GetEndpointsTaskListener() {
                         @Override
                         public void onComplete(MyBean joke, Exception e) {
-                            Log.d(TAG, "task load complete");
                             mJoke = joke;
                             if (!adLoaded) {
-                                Log.d(TAG, "ad not loaded yet, start new activity anyways");
+                                Log.d(TAG, "Ad not loaded yet, start new activity anyways");
                                 startNewActivity(joke);
                             }
                         }
                     });
-                    Log.d(TAG, "Async task execute step");
                     task.execute(new Pair<Context, String>(mContext, ""));
                     mProgressBar.setVisibility(View.VISIBLE);
                 }

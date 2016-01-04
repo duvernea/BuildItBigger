@@ -23,22 +23,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class JokeDisplayActivity extends AppCompatActivity {
+
     private static final String TAG = JokeDisplayActivity.class.getSimpleName();
 
     public static final String JOKE_SETUP = "joke_setup";
     public static final String JOKE_PUNCHLINE = "joke_punchline";
-
-    private static final int EXTRA_HEIGHT_ANIMATE = 30;
-
-    private TextView mJokeSetupTextView;
-    private TextView mJokePunchlineTextView;
-    private String mJokeSetupString;
-    private String mJokePunchlineString;
-    private Context mContext;
-
-    private Button mButton;
-
-    private boolean mPunchlineRevealed = false;
 
     // Keys for saved instance state on rotate
     private static final String JOKE_STRING_SETUP_KEY = "joke_string_setup";
@@ -46,13 +35,25 @@ public class JokeDisplayActivity extends AppCompatActivity {
     private static final String PUNCHLINE_REVEALED_KEY = "punchline_revealed";
     private static final String PUNCHLINE_VIEW_HEIGHT_KEY = "punchline_view_height";
 
+    private static final int EXTRA_HEIGHT_ANIMATE = 30;
+
+    private TextView mJokeSetupTextView;
+    private TextView mJokePunchlineTextView;
+    private Button mButton;
+
+    private String mJokeSetupString;
+    private String mJokePunchlineString;
+    private Context mContext;
+
+    private boolean mPunchlineRevealed = false;
+
+    // height of the punchline textView. used to determine button animation translation
     private int mViewHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joke_display);
-
 
         mContext = this;
 
@@ -98,7 +99,6 @@ public class JokeDisplayActivity extends AppCompatActivity {
             mJokePunchlineTextView.setVisibility(View.VISIBLE);
             if (mPunchlineRevealed) {
                 animateButtonObject(100);
-
             }
         }
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +123,6 @@ public class JokeDisplayActivity extends AppCompatActivity {
 
     }
     public void animateButtonObject(int duration) {
-        Log.d(TAG, "Animating button");
         mButton.clearAnimation();
         ObjectAnimator animX = ObjectAnimator.ofFloat(mButton, "translationY", mViewHeight+EXTRA_HEIGHT_ANIMATE);
         animX.setStartDelay(100);
@@ -136,18 +135,12 @@ public class JokeDisplayActivity extends AppCompatActivity {
                 mButton.setText(getResources().getString(R.string.button_joke_done));
                 mPunchlineRevealed = true;
             }
-
             @Override
-            public void onAnimationStart(Animator animation) {
-            }
-
+            public void onAnimationStart(Animator animation) {}
             @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
+            public void onAnimationCancel(Animator animation) {}
             @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
+            public void onAnimationRepeat(Animator animation) {}
         });
     }
 }

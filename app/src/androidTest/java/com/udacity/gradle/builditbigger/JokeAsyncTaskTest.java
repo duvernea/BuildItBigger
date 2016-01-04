@@ -39,7 +39,7 @@ public class JokeAsyncTaskTest extends AndroidTestCase {
                 signal.countDown();
             }
         });
-        task.execute(new Pair<Context, String>(mContext, "fallback joke?"));
+        task.execute(new Pair<Context, String>(context, ""));
         try {
             signal.await();
         } catch (InterruptedException e) {

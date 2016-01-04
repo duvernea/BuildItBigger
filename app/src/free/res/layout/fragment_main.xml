@@ -33,7 +33,6 @@
         android:text="@string/joke_button_text"
         android:layout_centerHorizontal="true"
         android:padding="@dimen/abc_button_padding_horizontal_material"
-        android:onClick="tellJoke"
         android:textColor="@android:color/white"
         android:textSize="@dimen/abc_text_size_large_material"
         android:background="@drawable/button"

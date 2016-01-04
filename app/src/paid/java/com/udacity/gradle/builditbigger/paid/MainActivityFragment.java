@@ -79,7 +79,6 @@ public class MainActivityFragment extends Fragment {
                 else {
                     Toast.makeText(mContext, getResources().getString(R.string.no_network_message), Toast.LENGTH_LONG).show();
                 }
-
             }
         });
         return root;
