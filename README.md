@@ -1,137 +1,64 @@
-# Gradle for Android and Java Final Project
+#Build it bigger, a joke telling app
+## Project 4 of the Udacity Android Developer Nanodegree
 
-In this project, you will create an app with multiple flavors that uses
-multiple libraries and Google Could Endpoints. The finished app will consist
-of four modules. A Java library that provides jokes, a Google Could Endpoints
-(GCE) project that serves those jokes, an Android Library containing an
-activity for displaying jokes, and an Android app that fetches jokes from the
-GCE module and passes them to the Android Library for display.
+This app tells jokes. While the Android app itself is fairly simple, it implements many complex concepts, including:
+* Free and paid versions. 
+* A Java library providing jokes and a Google Cloud Endpoints server to supply these jokes, and 
+* An Android library containing an activity for displaying jokes 
+* Google Admob banner and interstitial ads in the free variant
+* Unit tests for testing basic funtions
+* Configuring gradle task to start server, run tests, shutdown server
 
-## Why this Project
+Gradle is used heavily to accomplish these tasks.
 
-As Android projects grow in complexity, it becomes necessary to customize the
-behavior of the Gradle build tool, allowing automation of repetitive tasks.
-Particularly, factoring functionality into libraries and creating product
-flavors allow for much bigger projects with minimal added complexity.
+Getting Started
+-------------
+1. Weather information is acquired through openweathermap.org API. An account must be created on this site and an API Key must be requested.
+2. A Google developer account is required along with the following actions:
+  * A project must be created in your google developer [console] (https://console.developers.google.com)
+  * Google Cloud Messaging API must be requested for this project
+  * Configuration file "google-services.json" must be requested.  Follow instructions [here] (https://developers.google.com/cloud-messaging/android/client) to request file.
 
-##What Will I Learn?
+Installation
+------------
+1. Clone the GitHub repository
+2. gradle.properties must exist in "Sunshine" and have this line of code, with your own API KEY in quotation marks
 
-You will learn the role of Gradle in building Android Apps and how to use Gradle to manage apps of increasing complexity. You'll learn to:
+ ```MyOpenWeatherMapApiKey = "PUT_MY_API_KEY_HERE"```
 
-* Add free and paid flavors to an app, and set up your build to share code between them
-* Factor reusable functionality into a Java library
-* Factor reusable Android functionality into an Android library
-* Configure a multi project build to compile your libraries and app
-* Use the Gradle App Engine plugin to deploy a backend
-* Configure an integration test suite that runs against the local App Engine development server
+3. Place "google-services.json" file in Sunshine/app directory.
+4. Add "local.properties" file into the Sunshine base directory.  Add this line with the path to your Android sdk location:
+ ```sdk.dir = "PUT_MY_PATH_TO_SDK_HERE"```
 
-##How Do I Complete this Project?
+5. This project uses the Gradle build system.  To build this project, use the gradlew build" at command line or open project in Android Studio and build.  
 
-### Step 0: Starting Point
+Pre-requisites
+--------------
+* Android SDK 21 or Higher
+* Build Tools version 23.0.2
+* Android Support AppCompat 23.1.1
+* Android Support Annotations 23.1.1
+* Android Support GridLayout 23.1.1
+* Android Support CardView 23.1.1
+* Android Support Design 23.1.1
+* Android Support RecyclerView 23.1.1
+* Android Support Wearable 1.3.0
+* Google Play Services GCM 8.3.0
+* Google Play Services Wearable 8.3.0
+* Muzei Muzei 2.0
+* BumpTech Glide 3.5.2
 
-This is the starting point for the final project, which is provided to you in the [course repository](https://github.com/udacity/ud867/tree/master/FinalProject).
-It contains an activity with a banner ad and a button that purports to tell a
-joke, but actually just complains. The banner ad was set up following the
-instructions here:
+License
+-------
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-https://developers.google.com/mobile-ads-sdk/docs/admob/android/quick-start
+http://www.apache.org/licenses/LICENSE-2.0
 
-You may need to download the Google Repository from the Extras section of the
-Android SDK Manager.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+License for the specific language governing permissions and limitations under
+the License.
 
-When you can build an deploy this starter code to an emulator, you're ready to
-move on.
-
-### Step 1: Create a Java library
-
-Your first task is to create a Java library that provides jokes. Create a new
-Gradle Java project either using the Android Studio wizard, or by hand. Then
-introduce a project dependency between your app and the new Java Library. If
-you need review, check out demo 4.01 from the course code.
-
-Make the button display a toast showing a joke retrieved from your Java joke
-telling library.
-
-### Step 2: Create an Android Library
-
-Create an Android Library containing an Activity that will display a joke
-passed to it as an intent extra. Wire up project dependencies so that the
-button can now pass the joke from the Java Library to the Android Library.
-
-For review on how to create an Android library, check out demo 4.03. For a
-refresher on intent extras, check out;
-
-http://developer.android.com/guide/components/intents-filters.html
-
-### Step 3: Create GCE Module
-
-This next task will be pretty tricky. Instead of pulling jokes directly from
-our Java library, we'll set up a Google Cloud Endpoints development server,
-and pull our jokes from there. Follow the instructions in the following
-tutorial to add a Google Could Endpoints module to your project:
-
-https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpoints
-
-Introduce a project dependency between your Java library and your GCE module,
-and modify the GCE starter code to pull jokes from your Java library. Create
-an Async task to retrieve jokes. Make the button kick off a task to retrieve a
-joke, then launch the activity from your Android Library to display it.
-
-### Step 4: Add Functional Tests
-
-Add code to test that your Async task successfully retrieves a non-empty
-string. For a refresher on setting up Android tests, check out demo 4.09.
-
-### Step 5: Add a Paid Flavor
-
-Add free and paid product flavors to your app. Remove the ad (and any
-dependencies you can) from the paid flavor.
-
-## Optional Tasks
-
-To exceed expectations, do the following:
-
-### Add Interstitial Ad
-
-Follow these instructions to add an interstitial ad to the free version.
-Display the add after the user hits the button, but before the joke is shown.
-
-https://developers.google.com/mobile-ads-sdk/docs/admob/android/interstitial
-
-### Add Loading Indicator
-
-Add a loading indicator that is shown while the joke is being retrieved and
-disappears when the joke is ready. The following tutorial is a good place to
-start:
-
-http://www.tutorialspoint.com/android/android_loading_spinner.htm
-
-### Configure Test Task
-
-To tie it all together, create a Gradle task that:
-
-1. Launches the GCE local development server
-2. Runs all tests
-3. Shuts the server down again
-
-# Rubric
-
-### Required Components
-
-* Project contains a Java library for supplying jokes
-* Project contains an Android library with an activity that displays jokes passed to it as intent extras.
-* Project contains a Google Cloud Endpoints module that supplies jokes from the Java library. Project loads jokes from GCE module via an async task.
-* Project contains connected tests to verify that the async task is indeed loading jokes.
-* Project contains paid/free flavors. The paid flavor has no ads, and no unnecessary dependencies.
-
-### Required Behavior
-
-* App retrieves jokes from Google Cloud Endpoints module and displays them via an Activity from the Android Library.
-
-### Optional Components
-
-To receive "exceeds specifications", your app must fully implement all of the following items.
-
-* The free app variant displays interstitial ads between the main activity and the joke-displaying activity.
-* The app displays a loading indicator while the joke is being fetched from the server.
-* The root build.gradle file contains a task that will start up the GCE development server, run all Android tests, then shutdown the development server.
