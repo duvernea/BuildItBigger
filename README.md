@@ -13,40 +13,44 @@ Gradle is used heavily to accomplish these tasks.
 
 Getting Started
 -------------
-1. Weather information is acquired through openweathermap.org API. An account must be created on this site and an API Key must be requested.
-2. A Google developer account is required along with the following actions:
-  * A project must be created in your google developer [console] (https://console.developers.google.com)
-  * Google Cloud Messaging API must be requested for this project
-  * Configuration file "google-services.json" must be requested.  Follow instructions [here] (https://developers.google.com/cloud-messaging/android/client) to request file.
+This app can either be run using a local development server or one that's been deployed on the web. This sample Google github project and instructions [here] (https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpointscan) are useful in explaining how to deploy this live to Google App Engine.
 
 Installation
 ------------
 1. Clone the GitHub repository
-2. gradle.properties must exist in "Sunshine" and have this line of code, with your own API KEY in quotation marks
-
- ```MyOpenWeatherMapApiKey = "PUT_MY_API_KEY_HERE"```
-
-3. Place "google-services.json" file in Sunshine/app directory.
-4. Add "local.properties" file into the Sunshine base directory.  Add this line with the path to your Android sdk location:
- ```sdk.dir = "PUT_MY_PATH_TO_SDK_HERE"```
-
-5. This project uses the Gradle build system.  To build this project, use the gradlew build" at command line or open project in Android Studio and build.  
+2. This project uses the Gradle build system. To build the backend and start the local development server , use the "gradlew appengineRun" at the command line or open project in Android Studio and build.
+3. You can verify the local development server is running successfully, navigate to http://localhost:8080 in a browser.
+4. To build the app, use the "gradlew build" at command line or open project in Android Studio and build.
 
 Pre-requisites
 --------------
-* Android SDK 21 or Higher
-* Build Tools version 23.0.2
-* Android Support AppCompat 23.1.1
+####App
+* Android SDK 11 or Higher
+* Build Tools version 23.0.1
+* Android Support AppCompat 23.0.1
 * Android Support Annotations 23.1.1
-* Android Support GridLayout 23.1.1
-* Android Support CardView 23.1.1
-* Android Support Design 23.1.1
-* Android Support RecyclerView 23.1.1
-* Android Support Wearable 1.3.0
-* Google Play Services GCM 8.3.0
-* Google Play Services Wearable 8.3.0
-* Muzei Muzei 2.0
-* BumpTech Glide 3.5.2
+* com.android.support:multidex:1.0.0
+* com.google.code.findbugs:jsr305:2.0.1
+* Google Play Services Ads 8.4.0
+* Backend, Joke Display Activity Library
+
+###### Testing
+* com.android.support.test:runner:0.4.1
+* com.android.support.test:rules:0.4.1
+* com.android.support.test.espresso:espresso-core:2.2.1
+
+####Backend
+* appengineSDK com.google.appengine.appengine-java-sdk:1.9.30
+* com.google.appengine.:appengine-endpoints:1.9.30
+* com.google.appengine:appengine-endpoints-deps:1.9.30
+* javax.servlet:servlet-api:2.5
+
+####Joke Display Activity Library
+* junit 4.12
+* Android Support AppCompat 23.0.1
+* Android Support Design 23.0.1
+* Android Support CardView 23.0.1
+
 
 License
 -------
