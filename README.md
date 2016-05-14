@@ -1,4 +1,4 @@
-#Build it bigger, a joke telling app
+#Build it bigger: A joke telling app
 ## Project 4 of the Udacity Android Developer Nanodegree
 
 This app tells jokes. While the Android app itself is fairly simple, it implements many complex concepts, including:
@@ -13,44 +13,42 @@ Gradle is used heavily to accomplish these tasks.
 
 Getting Started
 -------------
-This app can either be run using a local development server or one that's been deployed on the web. This sample Google github project and instructions [here] (https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpointscan) are useful in explaining how to deploy this live to Google App Engine.
+This app can either be run using a local development server or one that's been deployed on the web. This sample Google github project and instructions [here] (https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpoints) are useful in explaining how to deploy this live to Google App Engine.
 
 Installation
 ------------
 1. Clone the GitHub repository
 2. This project uses the Gradle build system. To build the backend and start the local development server , use the "gradlew appengineRun" at the command line or open project in Android Studio and build.
-3. You can verify the local development server is running successfully, navigate to http://localhost:8080 in a browser.
+3. To verify the local development server is running successfully, navigate to [http://localhost:8080](http://localhost:8080) in a browser.
 4. To build the app, use the "gradlew build" at command line or open project in Android Studio and build.
 
 Pre-requisites
 --------------
-####App
+##### App
 * Android SDK 11 or Higher
 * Build Tools version 23.0.1
 * Android Support AppCompat 23.0.1
 * Android Support Annotations 23.1.1
-* com.android.support:multidex:1.0.0
-* com.google.code.findbugs:jsr305:2.0.1
+* Android Support Multidex 1.0.0
+* Findbugs jsr305:2.0.1
 * Google Play Services Ads 8.4.0
 * Backend, Joke Display Activity Library
 
 ###### Testing
-* com.android.support.test:runner:0.4.1
-* com.android.support.test:rules:0.4.1
-* com.android.support.test.espresso:espresso-core:2.2.1
+* Android Testing Suport 0.4.1
+* Android Testing Support Espresso 2.2.1
 
-####Backend
-* appengineSDK com.google.appengine.appengine-java-sdk:1.9.30
-* com.google.appengine.:appengine-endpoints:1.9.30
-* com.google.appengine:appengine-endpoints-deps:1.9.30
-* javax.servlet:servlet-api:2.5
+##### Backend
+* Google App Engine SDK 1.9.30
+* Google App Engine Endpoints 1.9.30
+* Google App Engine Endpoints Deps 1.9.30
+* Javax Servlet API 2.5
 
-####Joke Display Activity Library
-* junit 4.12
+#####Joke Display Activity Library
+* JUnit 4.12
 * Android Support AppCompat 23.0.1
 * Android Support Design 23.0.1
 * Android Support CardView 23.0.1
-
 
 License
 -------
