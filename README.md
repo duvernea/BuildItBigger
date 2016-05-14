@@ -18,9 +18,13 @@ This app can either be run using a local development server or one that's been d
 Installation
 ------------
 1. Clone the GitHub repository
-2. This project uses the Gradle build system. To build the backend and start the local development server , use the "gradlew appengineRun" at the command line or open project in Android Studio and build.
-3. To verify the local development server is running successfully, navigate to [http://localhost:8080](http://localhost:8080) in a browser.
-4. To build the app, use the "gradlew build" at command line or open project in Android Studio and build.
+2. Add "local.properties" file into the BuiltItBigger base directory.  Add this line with the path to your Android sdk location:
+
+ ```sdk.dir = "PUT_MY_PATH_TO_SDK_HERE"```
+
+3. This project uses the Gradle build system. To build the backend and start the local development server , use the "gradlew appengineRun" at the command line or open project in Android Studio and build.
+4. To verify the local development server is running successfully, navigate to [http://localhost:8080](http://localhost:8080) in a browser.
+5. To build the app, use the "gradlew build" at command line or open project in Android Studio and build.
 
 Pre-requisites
 --------------
